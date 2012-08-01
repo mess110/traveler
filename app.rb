@@ -1,20 +1,39 @@
 require 'sinatra'
-require 'data_mapper'
+require 'json'
 
-DataMapper.setup(:default, 'sqlite::memory:')
+require './db'
 
-class Post
-  include DataMapper::Resource
-
-  property :id,    Serial
-  property :title, String
+def user_locations phone_number
+  Location.all(:phone_number => phone_number.to_s, :order => [ :created_at.asc ])
 end
 
-Post.auto_migrate!
-first_post = Post.new
-first_post.title = "First!"
-first_post.save
-
 get "/" do
-  Post.get(1).title
+  erb :index
+end
+
+get "/:phone_number.json" do |phone_number|
+  content_type :json
+  @locations = user_locations phone_number
+
+  {
+    :phone_number => phone_number,
+    :locations => @locations
+  }.to_json
+end
+
+get "/:phone_number" do |phone_number|
+  @locations = user_locations phone_number
+  erb :track
+end
+
+post "/:phone_number/:latitude/:longitude" do |phone_number, latitude, longitude|
+  content_type :json
+
+  l = Location.new
+  l.phone_number = phone_number
+  l.latitude = latitude
+  l.longitude = longitude
+  l.save
+
+  latitude
 end
