@@ -8,6 +8,7 @@ def user_locations phone_number
 end
 
 get "/" do
+  @locations = Location.all(:fields => [:phone_number], :unique => true, :order => [:created_at.asc])
   erb :index
 end
 
@@ -24,6 +25,11 @@ end
 get "/:phone_number" do |phone_number|
   @locations = user_locations phone_number
   erb :track
+end
+
+get "/:phone_number/last.json" do |phone_number|
+  content_type :json
+  Location.last(:phone_number => phone_number).to_json
 end
 
 post "/:phone_number/:latitude/:longitude" do |phone_number, latitude, longitude|

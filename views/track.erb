@@ -1,28 +1,26 @@
 <script>
+var map;
+var marker;
 
 $(document).ready(function() {
-   initialize();
+  initialize();
+
+  placePin();
+  setInterval(placePin, 5000);
 });
 
 getPathName = function() {
   return window.location.pathname;
 }
 
-function initialize() {
-  var map;
+placePin = function() {
+  if (marker != undefined) {
+    marker.setMap(null);
+  }
 
-  var mapOptions = {
-    zoom: 2,
-    center: new google.maps.LatLng(46, 25.0),
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  };
-
-  map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
-
-  $.get(getPathName() + ".json", function(data) {
-
-    for(i = 0; i < data['locations'].length; i++) {
-      loc = data['locations'][i];
+  $.get(getPathName() + "/last.json", function(data) {
+    //for(i = 0; i < data['locations'].length; i++) {
+      loc = data; //['locations'][i];
 
       marker = new google.maps.Marker({
         map: map,
@@ -35,9 +33,20 @@ function initialize() {
           console.log(marker);
         }
       })(marker));
-    }
+    //}
   });
+}
+
+initialize = function() {
+  var mapOptions = {
+    zoom: 3,
+    center: new google.maps.LatLng(46, 25.0),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+
+  map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
 }
 </script>
 
-<div id="map_canvas"></div>  
+<div id="map_canvas"></div>
+<div id="map_info">asd</div>
