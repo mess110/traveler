@@ -1,3 +1,5 @@
+<link href='http://fonts.googleapis.com/css?family=Tienne:400,700' rel='stylesheet' type='text/css'>
+
 <script>
 var map;
 var marker;
@@ -19,22 +21,25 @@ placePin = function() {
   }
 
   $.get(getPathName() + "/last.json", function(data) {
-    //for(i = 0; i < data['locations'].length; i++) {
-      loc = data; //['locations'][i];
+    loc = data;
 
-      marker = new google.maps.Marker({
-        map: map,
-        draggable:false,
-        position: new google.maps.LatLng(loc.latitude, loc.longitude)
-      });
+    $("#number").html(loc['phone_number']);
+    $("#time").attr('title', loc['time_ago'])
+              .timeago();
 
-      google.maps.event.addListener(marker, 'click', (function(marker) {
-        return function() {
-          console.log(marker);
-        }
-      })(marker));
-    //}
+    marker = new google.maps.Marker({
+      map: map,
+      draggable:false,
+      position: new google.maps.LatLng(loc.latitude, loc.longitude)
+    });
+
+    google.maps.event.addListener(marker, 'click', (function(marker) {
+      return function() {
+        console.log(marker);
+      }
+    })(marker));
   });
+
 }
 
 initialize = function() {
@@ -49,4 +54,8 @@ initialize = function() {
 </script>
 
 <div id="map_canvas"></div>
-<div id="map_info">asd</div>
+
+<div class="toolbar">
+  <span class="number" id="number"></span>
+  <span class="time timeago" id="time" title=""></span>
+</div>

@@ -4,9 +4,36 @@ html, body, #map_canvas {
   height: 100%;
 }
 
-#map_info {
-  position: absolute;
-  margin: 0 auto;
-  top: 0px;
-  background-color: white;
+.clear {
+    clear: both;
 }
+
+.toolbar {
+    position: fixed;
+    top: 0px;
+    left: 50%;
+    margin-left : -210px;
+    width: 420px;
+    height: 51px;
+    background: url('toolbar_background.png') no-repeat center;
+}
+
+.toolbar .number, .toolbar .time {
+    width: 210px;
+    display: block;
+    float: left;
+    text-shadow: #fff 0 1px 0;
+    font-family: 12px 'Tienne', serif;
+    font-weight: 700;
+    margin-top: 11px;
+    text-align: center;
+}
+
+.toolbar .number {
+    text-indent: 40px;
+}
+
+.toolbar .time {
+    text-indent: -40px;
+}
+

@@ -7,4 +7,4 @@ class Traveler
   base_uri 'http://localhost:5000'
 end
 
-Traveler.post("/0745040691/45/45")
+puts Traveler.post("/0745040692/45/15")

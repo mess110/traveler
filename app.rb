@@ -29,7 +29,7 @@ end
 
 get "/:phone_number/last.json" do |phone_number|
   content_type :json
-  Location.last(:phone_number => phone_number).to_json
+  Location.last(:phone_number => phone_number).pretty.to_json
 end
 
 post "/:phone_number/:latitude/:longitude" do |phone_number, latitude, longitude|
